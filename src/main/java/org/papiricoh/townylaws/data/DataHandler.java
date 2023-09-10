@@ -1,4 +1,4 @@
-package me.lofienjoyer.TownyElections.data;
+package org.papiricoh.townylaws.data;
 
 import java.io.File;
 import java.io.FileReader;

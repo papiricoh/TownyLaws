@@ -1,0 +1,4 @@
+name: TownyLaws
+version: '${project.version}'
+main: org.papiricoh.townylaws.TownyLaws
+api-version: 1.20

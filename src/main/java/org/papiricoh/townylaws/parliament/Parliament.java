@@ -4,6 +4,8 @@ import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
+import org.papiricoh.townylaws.parliament.laws.Law;
+import org.papiricoh.townylaws.parliament.laws.ProposedLaw;
 import org.papiricoh.townylaws.parliament.senator.Senator;
 import org.papiricoh.townylaws.parliament.types.GovernmentTypes;
 
@@ -16,6 +18,8 @@ public class Parliament {
     private UUID parliament_president;
     private HashMap<UUID, Senator> senators;
     private GovernmentTypes government_type;
+    private HashMap<UUID, ProposedLaw> proposed_laws;
+    private HashMap<UUID, Law> laws;
 
     public Parliament(UUID nation_uuid, Senator king) {
         this.nation_uuid = nation_uuid;
@@ -24,13 +28,17 @@ public class Parliament {
         this.senators.put(king.getPlayer_uuid(), king);
         this.government_type = GovernmentTypes.ABSOLUTE_MONARCHY;
         this.buildSenate();
+        this.laws = new HashMap<>();
+        this.proposed_laws = new HashMap<>();
     }
 
-    public Parliament(UUID nation_uuid, UUID parliament_president, HashMap<UUID, Senator> senators, GovernmentTypes government_type) {
+    public Parliament(UUID nation_uuid, UUID parliament_president, HashMap<UUID, Senator> senators, GovernmentTypes government_type, HashMap<UUID, ProposedLaw> proposed_laws, HashMap<UUID, Law> laws) {
         this.nation_uuid = nation_uuid;
         this.parliament_president = parliament_president;
         this.senators = senators;
         this.government_type = government_type;
+        this.proposed_laws = proposed_laws;
+        this.laws = laws;
     }
 
     private void buildSenate() {

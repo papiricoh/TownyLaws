@@ -1,11 +1,11 @@
-package org.papiricoh.townylaws.government;
+package org.papiricoh.townylaws.parliament;
 
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
-import org.papiricoh.townylaws.government.senator.Senator;
-import org.papiricoh.townylaws.government.types.GovernmentTypes;
+import org.papiricoh.townylaws.parliament.senator.Senator;
+import org.papiricoh.townylaws.parliament.types.GovernmentTypes;
 
 import java.util.ArrayList;
 import java.util.UUID;

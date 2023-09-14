@@ -1,4 +1,4 @@
-package org.papiricoh.townylaws.government.senator;
+package org.papiricoh.townylaws.parliament.senator;
 
 import java.util.UUID;
 

@@ -39,6 +39,22 @@ public class Government {
         return false;
     }
 
+    public boolean finishVote() {
+        if(currentVote == null) {
+            return false;
+        }
+        char type = currentVote.getType();
+        if(type == 'G') {
+            GovernmentType votePassed = currentVote.finishVote();
+            if(votePassed == null) {
+                return false;
+            }
+            this.governmentType = votePassed;
+            return true;
+        }
+        return false;
+    }
+
     private boolean checkIsPartOfGovernment(Resident proposer) {
         for (GovernmentMember m: this.members) {
             if(m.getMember().equals(proposer)) {

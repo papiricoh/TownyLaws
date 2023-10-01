@@ -31,7 +31,8 @@ public class Government {
             }
         }else if(this.governmentType.hasSenate) {
             if(checkIsPartOfGovernment(proposer)) {
-
+                this.currentVote = new Vote(governmentType, members);
+                return true;
             }
             return false;
         }

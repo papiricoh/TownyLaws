@@ -1,6 +1,10 @@
 package org.papiricoh.townylaws.object.government;
 
+import com.palmergames.bukkit.towny.TownyUniverse;
+import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.Town;
+import org.papiricoh.townylaws.object.government.law.Law;
 import org.papiricoh.townylaws.object.government.member.GovernmentMember;
 import org.papiricoh.townylaws.object.government.type.GovernmentType;
 import org.papiricoh.townylaws.object.government.vote.Vote;
@@ -14,12 +18,15 @@ public class Government {
     private GovernmentType governmentType;
     protected ArrayList<GovernmentMember> members;
     private Vote currentVote;
+    protected ArrayList<Law> laws;
 
-    public Government(UUID uuid, Resident leader, GovernmentType governmentType) {
+    public Government(UUID uuid, Resident leader, GovernmentType governmentType, ArrayList<GovernmentMember> members, ArrayList<Law>  laws) {
         this.uuid = uuid;
         this.leader = leader;
         this.governmentType = governmentType != null ? governmentType : GovernmentType.ABSOLUTE_MONARCHY;
         this.currentVote = null;
+        this.members = members != null ? members : new ArrayList<>();
+        this.laws = laws != null ? laws : new ArrayList<>();
     }
 
     public boolean startChangeGovernmentVote(GovernmentType governmentType, Resident proposer) {
@@ -65,4 +72,11 @@ public class Government {
         return false;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public Nation getNation() {
+        return TownyUniverse.getInstance().getNation(this.uuid);
+    }
 }

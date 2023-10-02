@@ -1,4 +1,4 @@
-package org.papiricoh.townylaws.object.government;
+package org.papiricoh.townylaws.object.government.vote;
 
 import org.papiricoh.townylaws.object.government.law.Law;
 import org.papiricoh.townylaws.object.government.member.GovernmentMember;

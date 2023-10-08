@@ -39,9 +39,16 @@ public class Vote {
         return 'L';
     }
 
-    public GovernmentType finishVote() {
+    public GovernmentType finishGovernmentVote() {
         if(getResult()) {
             return this.toGovernment;
+        }
+        return null;
+    }
+
+    public Law finishLawVote() {
+        if(getResult()) {
+            return this.proposedLaw;
         }
         return null;
     }

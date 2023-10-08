@@ -7,6 +7,7 @@ import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.object.government.law.Law;
 import org.papiricoh.townylaws.object.government.member.GovernmentMember;
 import org.papiricoh.townylaws.object.government.type.GovernmentType;
+import org.papiricoh.townylaws.object.government.vote.Vote;
 
 import java.util.ArrayList;
 import java.util.List;

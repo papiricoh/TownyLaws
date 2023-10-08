@@ -1,21 +1,21 @@
 package org.papiricoh.townylaws.object.government.vote;
 
+import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.object.government.law.Law;
-import org.papiricoh.townylaws.object.government.member.GovernmentMember;
 import org.papiricoh.townylaws.object.government.type.GovernmentType;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Vote {
-    protected ArrayList<GovernmentMember> forVote;
-    protected ArrayList<GovernmentMember> againstVote;
-    protected ArrayList<GovernmentMember> abstainVote;
+    protected ArrayList<Resident> forVote;
+    protected ArrayList<Resident> againstVote;
+    protected ArrayList<Resident> abstainVote;
     private GovernmentType toGovernment;
     private Law proposedLaw;
     private Date date;
 
-    public Vote(GovernmentType governmentType, ArrayList<GovernmentMember> members) {
+    public Vote(GovernmentType governmentType, ArrayList<Resident> members) {
         this.abstainVote = new ArrayList<>(members);
         this.againstVote = new ArrayList<>();
         this.forVote = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Vote {
         this.proposedLaw = null;
         this.date = new Date();
     }
-    public Vote(Law law, ArrayList<GovernmentMember> members) {
+    public Vote(Law law, ArrayList<Resident> members) {
         this.abstainVote = new ArrayList<>(members);
         this.againstVote = new ArrayList<>();
         this.forVote = new ArrayList<>();
@@ -64,14 +64,14 @@ public class Vote {
         return false;
     }
 
-    public boolean changeVote(GovernmentMember gm, char vote) { //F - for, A - against, N - Abstain
+    public boolean changeVote(Resident gm, char vote) { //F - for, A - against, N - Abstain
         if(gm == null) {
             return false; //GovernmentMember is null
         }
         if(!this.forVote.contains(gm) && !this.againstVote.contains(gm) && !this.abstainVote.contains(gm) ) {
             return false; //GovernmentMember does not exist
         }
-        GovernmentMember ngm = removeOldVote(gm);
+        Resident ngm = removeOldVote(gm);
         if(vote == 'F') {
             this.forVote.add(ngm);
             return true;
@@ -84,7 +84,7 @@ public class Vote {
         }
     }
 
-    private GovernmentMember removeOldVote(GovernmentMember gm) {
+    private Resident removeOldVote(Resident gm) {
         if(this.abstainVote.contains(gm)) {
             this.abstainVote.remove(gm);
             return gm;

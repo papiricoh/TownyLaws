@@ -2,7 +2,7 @@ package org.papiricoh.townylaws.object.government;
 
 import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.object.government.law.Law;
-import org.papiricoh.townylaws.object.government.member.GovernmentMember;
+import org.papiricoh.townylaws.object.government.member.MemberManager;
 import org.papiricoh.townylaws.object.government.type.GovernmentType;
 import org.papiricoh.townylaws.object.government.vote.Vote;
 
@@ -14,16 +14,17 @@ public class Government {
     private UUID uuid;
     private Resident leader;
     private GovernmentType governmentType;
-    protected ArrayList<GovernmentMember> members;
+    protected MemberManager memberManager;
     private Vote currentVote;
     private List<Law> laws;
 
-    public Government(UUID uuid, Resident leader, GovernmentType governmentType, ArrayList<Law> laws) {
+    public Government(UUID uuid, Resident leader, GovernmentType governmentType, ArrayList<Law> laws, MemberManager memberManager) {
         this.uuid = uuid;
         this.leader = leader;
         this.governmentType = governmentType != null ? governmentType : GovernmentType.ABSOLUTE_MONARCHY;
         this.currentVote = null;
         this.laws = laws != null ? laws : new ArrayList<>();
+        this.memberManager = memberManager;
     }
 
     public boolean startChangeGovernmentVote(GovernmentType governmentType, Resident proposer) {
@@ -35,8 +36,8 @@ public class Government {
                 return false;
             }
         }else if(this.governmentType.hasSenate) {
-            if(checkIsPartOfGovernment(proposer)) {
-                this.currentVote = new Vote(governmentType, members);
+            if(checkIsPartOfGovernment(proposer) || this.leader.equals(proposer)) {
+                this.currentVote = new Vote(governmentType, this.memberManager.getAllMembers());
                 return true;
             }
             return false;
@@ -54,7 +55,7 @@ public class Government {
             }
         }else if(this.governmentType.hasSenate) {
             if(checkIsPartOfGovernment(proposer)) {
-                this.currentVote = new Vote(law, members);
+                this.currentVote = new Vote(law, this.memberManager.getAllMembers());
                 return true;
             }
             return false;
@@ -91,9 +92,9 @@ public class Government {
         return this.currentVote;
     }
 
-    private boolean checkIsPartOfGovernment(Resident proposer) {
-        for (GovernmentMember m: this.members) {
-            if(m.getMember().equals(proposer)) {
+    public boolean checkIsPartOfGovernment(Resident proposer) {
+        for (Resident r: this.memberManager.getAllMembers()) {
+            if(r.equals(proposer)) {
                 return true;
             }
         }

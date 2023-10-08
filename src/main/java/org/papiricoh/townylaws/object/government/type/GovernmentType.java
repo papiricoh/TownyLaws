@@ -1,10 +1,5 @@
 package org.papiricoh.townylaws.object.government.type;
 
-import com.palmergames.bukkit.towny.object.Resident;
-import org.papiricoh.townylaws.object.government.member.GovernmentMember;
-
-import java.util.ArrayList;
-
 public enum GovernmentType {
     ABSOLUTE_MONARCHY("Absolute_monarchy", false, false, "Absolute Monarchy"), //NAME, SENATE, POPULATION VOTE
     PARLIAMENTARY_MONARCHY("Parliamentary_monarchy", true, false, "Parliamentary Monarchy"),

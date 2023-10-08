@@ -1,8 +1,5 @@
 package org.papiricoh.townylaws.object.government;
 
-import com.google.gson.JsonArray;
-import com.palmergames.bukkit.towny.TownyUniverse;
-import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.object.government.law.Law;
 import org.papiricoh.townylaws.object.government.member.GovernmentMember;

@@ -78,8 +78,7 @@ public class Government {
             this.governmentType = votePassed;
             this.currentVote = null;
             return true;
-        }
-        if(type == 'L') {
+        }else if(type == 'L') {
             Law votePassed = currentVote.finishLawVote();
             if(votePassed == null) {
                 return false;
@@ -89,6 +88,10 @@ public class Government {
             return true;
         }
         return false;
+    }
+
+    public Vote getCurrentVote() {
+        return this.currentVote;
     }
 
     private boolean checkIsPartOfGovernment(Resident proposer) {

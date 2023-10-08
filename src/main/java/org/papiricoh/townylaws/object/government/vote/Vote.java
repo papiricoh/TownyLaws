@@ -5,6 +5,7 @@ import org.papiricoh.townylaws.object.government.member.GovernmentMember;
 import org.papiricoh.townylaws.object.government.type.GovernmentType;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Vote {
     protected ArrayList<GovernmentMember> forVote;
@@ -12,6 +13,7 @@ public class Vote {
     protected ArrayList<GovernmentMember> abstainVote;
     private GovernmentType toGovernment;
     private Law proposedLaw;
+    private Date date;
 
     public Vote(GovernmentType governmentType, ArrayList<GovernmentMember> members) {
         this.abstainVote = new ArrayList<>(members);
@@ -19,6 +21,7 @@ public class Vote {
         this.forVote = new ArrayList<>();
         this.toGovernment = governmentType;
         this.proposedLaw = null;
+        this.date = new Date();
     }
     public Vote(Law law, ArrayList<GovernmentMember> members) {
         this.abstainVote = new ArrayList<>(members);
@@ -26,6 +29,7 @@ public class Vote {
         this.forVote = new ArrayList<>();
         this.toGovernment = null;
         this.proposedLaw = law;
+        this.date = new Date();
     }
 
     /**

@@ -1,12 +1,17 @@
 package org.papiricoh.townylaws;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.papiricoh.townylaws.object.government.Government;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TownyLaws extends JavaPlugin {
+    protected List<Government> governments;
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        this.governments = new ArrayList<>();
 
     }
 

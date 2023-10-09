@@ -45,6 +45,15 @@ public class MemberManager {
         return null;
     }
 
+    public Party getPartyByLeader(Resident resident) {
+        for (Party p : this.parties) {
+            if(p.getLeader().equals(resident)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public List<Party> getParties() {
         return parties;
     }

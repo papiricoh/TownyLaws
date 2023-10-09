@@ -74,4 +74,8 @@ public class Party {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void addMember(Resident resident) {
+        this.members.add(resident);
+    }
 }

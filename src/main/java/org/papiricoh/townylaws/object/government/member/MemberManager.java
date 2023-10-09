@@ -20,6 +20,31 @@ public class MemberManager {
         this.parties = parties != null ? parties : new ArrayList<>();
     }
 
+    public boolean joinParty(Party party, Resident resident) {
+        if(!this.isMember(resident) || this.getPartyByMember(resident) != null || party == null) {
+            return false;
+        }
+        party.addMember(resident);
+        return true;
+    }
+
+    public boolean createParty(Party party, Resident resident) {
+        if(!this.isMember(resident)) {
+            return false;
+        }
+        this.parties.add(party);
+        return true;
+    }
+
+    public Party getPartyByMember(Resident resident) {
+        for (Party p : this.parties) {
+            if(p.isMember(resident)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public List<Party> getParties() {
         return parties;
     }

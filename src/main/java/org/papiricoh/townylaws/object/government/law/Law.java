@@ -1,7 +1,6 @@
 package org.papiricoh.townylaws.object.government.law;
 
 import com.palmergames.bukkit.towny.object.Resident;
-import org.papiricoh.townylaws.object.government.Government;
 import org.papiricoh.townylaws.object.government.parties.Ideology;
 
 public class Law {

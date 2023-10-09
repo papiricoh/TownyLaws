@@ -11,12 +11,14 @@ public class Party {
     public String name;
     private Resident leader;
     private List<Resident> members;
+    private Ideology ideology;
 
-    public Party(UUID uuid, String name, Resident leader, List<Resident> members) {
+    public Party(UUID uuid, String name, Resident leader, List<Resident> members, Ideology ideology) {
         this.uuid = uuid != null ? uuid : UUID.randomUUID();
         this.name = name;
         this.leader = leader;
         this.members = members != null ? members : new ArrayList<>();
+        this.ideology = ideology != null ? ideology : Ideology.CENTRISM;
     }
 
     public String getName() {
@@ -59,5 +61,17 @@ public class Party {
                 this.members.remove(0);
             }
         }
+    }
+
+    public Ideology getIdeology() {
+        return ideology;
+    }
+
+    public void changeIdeology(Ideology id) {
+        this.ideology = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

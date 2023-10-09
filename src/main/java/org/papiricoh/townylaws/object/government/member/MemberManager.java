@@ -3,6 +3,7 @@ package org.papiricoh.townylaws.object.government.member;
 import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.object.government.parties.Party;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +13,15 @@ public class MemberManager {
     protected List<Resident> senators;
     protected List<Party> parties;
 
-    public MemberManager(Resident prime_minister, ArrayList<Resident> ministers, ArrayList<Resident> senators) {
+    public MemberManager(Resident prime_minister, ArrayList<Resident> ministers, ArrayList<Resident> senators, ArrayList<Party> parties) {
         this.prime_minister = prime_minister;
         this.ministers = ministers != null ? ministers : new ArrayList<>();
         this.senators = senators != null ? senators : new ArrayList<>();
+        this.parties = parties != null ? parties : new ArrayList<>();
+    }
+
+    public List<Party> getParties() {
+        return parties;
     }
 
     public String memberType(Resident resident) {

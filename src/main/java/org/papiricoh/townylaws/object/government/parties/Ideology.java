@@ -16,8 +16,8 @@ public enum Ideology {
     FASCISM("Fascism", "Fascist"),
     NATIONAL_SOCIALISM("National Socialism", "National Socialist");
 
-    final String name;
-    final String person;
+    public final String name;
+    public final String person;
 
     Ideology(String name, String person) {
         this.name = name;

@@ -13,6 +13,7 @@ public class Vote {
     protected ArrayList<Resident> abstainVote;
     private GovernmentType toGovernment;
     private Law proposedLaw;
+    private boolean addLaw;
     private Date date;
 
     public Vote(GovernmentType governmentType, ArrayList<Resident> members) {
@@ -22,14 +23,16 @@ public class Vote {
         this.toGovernment = governmentType;
         this.proposedLaw = null;
         this.date = new Date();
+        this.addLaw = false;
     }
-    public Vote(Law law, ArrayList<Resident> members) {
+    public Vote(Law law, ArrayList<Resident> members, boolean addLaw) {
         this.abstainVote = new ArrayList<>(members);
         this.againstVote = new ArrayList<>();
         this.forVote = new ArrayList<>();
         this.toGovernment = null;
         this.proposedLaw = law;
         this.date = new Date();
+        this.addLaw = addLaw;
     }
 
     /**
@@ -39,6 +42,8 @@ public class Vote {
     public char getType() {
         if(toGovernment != null) {
             return 'G';
+        }else if (addLaw == false) {
+            return 'R'; //REMOVE LAW
         }
         return 'L';
     }
@@ -98,5 +103,15 @@ public class Vote {
             return gm;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        if (getType() == 'G') {
+            return "Change of government vote to: " + this.toGovernment.formatted_name;
+        } else if (getType() == 'L') {
+            return "Vote to add new law: ";
+        }
+        return "Vote to remove law: ";
     }
 }

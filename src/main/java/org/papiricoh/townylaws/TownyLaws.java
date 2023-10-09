@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TownyLaws extends JavaPlugin {
-    protected List<Government> governments;
+    protected static List<Government> governments;
 
     @Override
     public void onEnable() {

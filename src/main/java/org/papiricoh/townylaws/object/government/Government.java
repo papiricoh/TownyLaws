@@ -1,5 +1,7 @@
 package org.papiricoh.townylaws.object.government;
 
+import com.palmergames.bukkit.towny.TownyUniverse;
+import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.object.government.law.Law;
 import org.papiricoh.townylaws.object.government.member.MemberManager;
@@ -133,5 +135,13 @@ public class Government {
 
     public String governmentTypeToString() {
         return this.governmentType.formatted_name;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public Nation getGovernmentNation() {
+        return TownyUniverse.getInstance().getNation(this.uuid);
     }
 }

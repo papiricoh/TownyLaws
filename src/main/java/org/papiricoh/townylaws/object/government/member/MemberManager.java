@@ -1,13 +1,46 @@
 package org.papiricoh.townylaws.object.government.member;
 
 import com.palmergames.bukkit.towny.object.Resident;
+import org.papiricoh.townylaws.object.government.parties.Party;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MemberManager {
     protected Resident prime_minister;
-    protected ArrayList<Resident> ministers;
-    protected ArrayList<Resident> senators;
+    protected List<Resident> ministers;
+    protected List<Resident> senators;
+    protected List<Party> parties;
+
+    public MemberManager(Resident prime_minister, ArrayList<Resident> ministers, ArrayList<Resident> senators) {
+        this.prime_minister = prime_minister;
+        this.ministers = ministers != null ? ministers : new ArrayList<>();
+        this.senators = senators != null ? senators : new ArrayList<>();
+    }
+
+    public String memberType(Resident resident) {
+        if(isMember(resident)) {
+            if(this.ministers.contains(resident)) {
+                return "Minister";
+            }else if(this.ministers.contains(senators)) {
+                return "Senator";
+            }else if(this.prime_minister.equals(resident)) {
+                return "Prime Minister";
+            }
+        }
+        return "";
+    }
+
+    public String getMemberName(Resident resident) {
+        return this.memberType(resident) + " " + resident.getName();
+    }
+
+    public boolean isMember(Resident resident) {
+        if(this.ministers.contains(resident) || this.senators.contains(resident) || this.prime_minister.equals(resident)) {
+            return true;
+        }
+        return false;
+    }
 
     public ArrayList<Resident> getAllMembers() {
         ArrayList<Resident> members = new ArrayList<>();

@@ -12,10 +12,11 @@ public class Party {
     private List<Resident> residents;
 
     public Party(UUID uuid, Resident leader, List<Resident> residents) {
-        this.uuid = uuid;
+        this.uuid = uuid != null ? uuid : UUID.randomUUID();
         this.leader = leader;
         this.residents = residents != null ? residents : new ArrayList<>();
     }
+
 
 
 }

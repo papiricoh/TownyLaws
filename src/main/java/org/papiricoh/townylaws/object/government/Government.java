@@ -27,6 +27,28 @@ public class Government {
         this.memberManager = memberManager;
     }
 
+    public List<Law> getLaws() {
+        return laws;
+    }
+
+    public boolean startRevokeLawVote(Law law, Resident proposer) {
+        if(!this.governmentType.hasSenate) {
+            if(this.leader.equals(proposer)) {
+                this.laws.remove(law);
+                return true;
+            }else {
+                return false;
+            }
+        }else if(this.governmentType.hasSenate) {
+            if(checkIsPartOfGovernment(proposer)) {
+                this.currentVote = new Vote(law, this.memberManager.getAllMembers(), false);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     public boolean startChangeGovernmentVote(GovernmentType governmentType, Resident proposer) {
         if(!this.governmentType.hasSenate) {
             if(this.leader.equals(proposer)) {
@@ -55,7 +77,7 @@ public class Government {
             }
         }else if(this.governmentType.hasSenate) {
             if(checkIsPartOfGovernment(proposer)) {
-                this.currentVote = new Vote(law, this.memberManager.getAllMembers());
+                this.currentVote = new Vote(law, this.memberManager.getAllMembers(), true);
                 return true;
             }
             return false;
@@ -82,6 +104,14 @@ public class Government {
                 return false;
             }
             this.laws.add(votePassed);
+            this.currentVote = null;
+            return true;
+        }else if(type == 'R') {
+            Law votePassed = currentVote.finishLawVote();
+            if(votePassed == null) {
+                return false;
+            }
+            this.laws.remove(votePassed);
             this.currentVote = null;
             return true;
         }

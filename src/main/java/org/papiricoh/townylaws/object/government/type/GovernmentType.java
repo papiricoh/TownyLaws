@@ -7,13 +7,13 @@ public enum GovernmentType {
     UNITARY_REPUBLIC("Unitary_republic", true, true, "Unitary Republic"),
     FEDERAL_REPUBLIC("Federal_republic", true, true, "Federal Republic");
 
-    public final String typeName;
+    public final String name;
     public final boolean hasSenate;
     public final boolean citizensCanVote;
     public final String formatted_name;
 
-    GovernmentType(String typeName, boolean hasSenate, boolean citizensCanVote, String formatted_name) {
-        this.typeName = typeName;
+    GovernmentType(String name, boolean hasSenate, boolean citizensCanVote, String formatted_name) {
+        this.name = name;
         this.hasSenate = hasSenate;
         this.citizensCanVote = citizensCanVote;
         this.formatted_name = formatted_name;

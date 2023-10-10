@@ -144,4 +144,12 @@ public class Government {
     public Nation getGovernmentNation() {
         return TownyUniverse.getInstance().getNation(this.uuid);
     }
+
+    public Resident getLeader() {
+        return this.leader;
+    }
+
+    public GovernmentType getGovernmentType() {
+        return this.governmentType;
+    }
 }

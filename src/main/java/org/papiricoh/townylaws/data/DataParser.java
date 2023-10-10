@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataParser {
-    public static void loadGovernment() {
+    public static void loadDatabase() {
         TownyLaws.db.getConnection();
     }
 

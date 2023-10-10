@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TownyLaws extends JavaPlugin {
-    protected static DatabaseManager db;
+    public static DatabaseManager db;
     protected static List<Government> governments;
 
     @Override

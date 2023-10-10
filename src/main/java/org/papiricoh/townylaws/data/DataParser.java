@@ -1,13 +1,14 @@
 package org.papiricoh.townylaws.data;
 
+import org.papiricoh.townylaws.TownyLaws;
 import org.papiricoh.townylaws.object.government.Government;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataParser {
-    public static void saveGovernment(Government government, Connection connection) {
-
+    public static void loadGovernment() {
+        TownyLaws.db.getConnection();
     }
 
     public static void initializeDatabase(Connection connection) throws SQLException {

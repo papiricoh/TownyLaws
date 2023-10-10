@@ -1,22 +1,67 @@
 package org.papiricoh.townylaws.data;
 
 import org.papiricoh.townylaws.object.government.Government;
-import org.papiricoh.townylaws.object.government.type.GovernmentType;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DataParser {
-    public static void SaveGovernment(Government government, File dataFolder) {
-        File governmentFile = new File(dataFolder, "governments/" + government.getUuid() + ".txt");
-        try {
-            FileWriter writer = new FileWriter(governmentFile);
-            writer.write("uuid: " + government.getUuid());
-            writer.write("leader: " + government.getLeader().getUUID());
-            writer.write("governmentType: " + government.getGovernmentType().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void saveGovernment(Government government, Connection connection) {
+
+    }
+
+    public static void initializeDatabase(Connection connection) throws SQLException {
+        String sql = "CREATE TABLE IF NOT EXISTS governments (" +
+                "uuid TEXT PRIMARY KEY," +
+                "name TEXT NOT NULL," +
+                "prime_minister TEXT," +
+                "governmentType TEXT NOT NULL" +
+                ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        }
+        sql = "CREATE TABLE IF NOT EXISTS members (" +
+                "player_uuid TEXT PRIMARY KEY," +
+                "role TEXT DEFAULT 'senator'," +
+                ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        }
+        sql = "CREATE TABLE IF NOT EXISTS parties (" +
+                "uuid TEXT PRIMARY KEY," +
+                "name TEXT NOT NULL," +
+                "leader TEXT NOT NULL," +
+                "ideology TEXT NOT NULL," +
+                "government_uuid TEXT NOT NULL," +
+                "FOREIGN KEY (government_uuid) REFERENCES governments(uuid)" +
+                ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        }
+        sql = "CREATE TABLE IF NOT EXISTS laws (" +
+                "uuid TEXT PRIMARY KEY," +
+                "title TEXT NOT NULL," +
+                "ideology TEXT NOT NULL," +
+                "body TEXT NOT NULL," +
+                "proposedByUuid TEXT," +
+                "government_uuid TEXT NOT NULL," +
+                "FOREIGN KEY (government_uuid) REFERENCES governments(uuid)" +
+                ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        }
+        sql = "CREATE TABLE IF NOT EXISTS parties_members (" +
+                "uuid TEXT PRIMARY KEY," +
+                "party_uuid TEXT NOT NULL," +
+                "FOREIGN KEY (party_uuid) REFERENCES parties(uuid)" +
+                ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
         }
     }
 }

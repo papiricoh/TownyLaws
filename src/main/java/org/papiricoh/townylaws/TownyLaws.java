@@ -1,12 +1,11 @@
 package org.papiricoh.townylaws;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.papiricoh.townylaws.data.DataParser;
+import org.papiricoh.townylaws.data.DataLoader;
 import org.papiricoh.townylaws.data.DatabaseManager;
 import org.papiricoh.townylaws.object.government.Government;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class TownyLaws extends JavaPlugin {
@@ -18,11 +17,11 @@ public final class TownyLaws extends JavaPlugin {
         this.db = new DatabaseManager();
         try {
             this.db.connect(this);
-            DataParser.initializeDatabase(this.db.getConnection());
+            DataLoader.initializeDatabase(this.db.getConnection());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        this.governments = DataParser.loadDatabase();
+        this.governments = DataLoader.loadDatabase();
 
     }
 

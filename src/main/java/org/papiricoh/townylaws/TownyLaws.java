@@ -22,12 +22,18 @@ public final class TownyLaws extends JavaPlugin {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        this.governments = new ArrayList<>();
+        this.governments = DataParser.loadDatabase();
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        try {
+            if (db.getConnection() != null) {
+                db.getConnection().close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

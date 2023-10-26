@@ -3,11 +3,6 @@ package org.papiricoh.townylaws.data;
 import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.TownyLaws;
-import org.papiricoh.townylaws.object.government.Government;
-import org.papiricoh.townylaws.object.government.member.MemberManager;
-import org.papiricoh.townylaws.object.government.parties.Ideology;
-import org.papiricoh.townylaws.object.government.parties.Party;
-import org.papiricoh.townylaws.object.government.type.GovernmentType;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,9 +13,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class DataLoader {
-    public static List<Government> loadDatabase() {
+    /*public static List<Government> loadDatabase() {
         //TownyLaws.db.getConnection();
-        ArrayList<Government> governments = new ArrayList<>();
+        ArrayList<Governments> governments = new ArrayList<>();
 
         ArrayList<String> uuid_list = new ArrayList<>();
         try (Statement stmt = TownyLaws.db.getConnection().createStatement();
@@ -200,5 +195,5 @@ public class DataLoader {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(sql);
         }
-    }
+    }*/
 }

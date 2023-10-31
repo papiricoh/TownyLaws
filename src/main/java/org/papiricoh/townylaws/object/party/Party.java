@@ -9,12 +9,14 @@ import java.util.UUID;
 
 public class Party {
     private UUID uuid;
+    private String name;
     private Resident leader;
     private List<Resident> members;
     private Ideology ideology;
 
-    public Party(UUID uuid, @NotNull Resident leader, List<Resident> members, Ideology ideology) {
+    public Party(UUID uuid, @NotNull String name, @NotNull Resident leader, List<Resident> members, Ideology ideology) {
         this.uuid = uuid != null ? uuid : UUID.randomUUID();
+        this.name = name;
         this.leader = leader;
         this.members = members != null ? members : new ArrayList<>();
         this.ideology = ideology != null ? ideology : Ideology.CENTRISM;
@@ -78,5 +80,13 @@ public class Party {
 
     public void setIdeology(Ideology ideology) {
         this.ideology = ideology;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

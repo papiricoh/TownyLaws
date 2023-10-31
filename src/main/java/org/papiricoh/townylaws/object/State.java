@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class State {
-    private UUID uuid;
+    private Nation nation;
     private President president;
     private List<GovernmentMember> members;
     private SenateManager senateManager;
 
     public State(Nation nation, President president, List<GovernmentMember> members, SenateManager senateManager) {
-        this.uuid = nation.getUUID();
+        this.nation = nation;
         this.president = president != null ? president : null;
         this.members = members != null ? members : new ArrayList<>();
-        this.senateManager = senateManager;
+        this.senateManager = senateManager != null ? senateManager : new SenateManager(nation, null, null, null);
     }
 
     public boolean isMember(Resident res) {
@@ -55,5 +55,9 @@ public abstract class State {
 
     public SenateManager getSenateManager() {
         return senateManager;
+    }
+
+    public Nation getNation() {
+        return nation;
     }
 }

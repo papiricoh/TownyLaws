@@ -9,24 +9,26 @@ import java.util.List;
 import java.util.Map;
 
 public class Election {
-    private Map<Party, Integer> parties;
+    private List<Party> parties;
     private Nation nation;
+    private Map<Resident, Party> votes;
 
     public Election(List<Party> parties, Nation nation) {
-        this.parties = transformParties(parties);
+        this.parties = parties;
         this.nation = nation;
+        this.votes = generateVotes();
     }
 
-    private Map<Party, Integer> transformParties(List<Party> parties) {
-        HashMap<Party, Integer> partiesMap = new HashMap<>();
-        for (Party p: parties) {
-            partiesMap.put(p, 0);
+    private Map<Resident, Party> generateVotes() {
+        HashMap<Resident, Party> votes = new HashMap<>();
+        for (Resident r : this.nation.getResidents()) {
+            votes.put(r, null);
         }
-        return partiesMap;
+        return votes;
     }
 
-    public void setVote() {
-
+    public void setVote(Resident res, Party party) {
+        this.votes.replace(res, party);
     }
 
     public Nation getNation() {

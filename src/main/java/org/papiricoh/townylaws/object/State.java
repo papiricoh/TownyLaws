@@ -20,7 +20,7 @@ public abstract class State {
         this.nation = nation;
         this.president = president != null ? president : null;
         this.members = members != null ? members : new ArrayList<>();
-        this.senateManager = senateManager != null ? senateManager : new SenateManager(nation, null, null, null);
+        this.senateManager = senateManager != null ? senateManager : new SenateManager(nation, null, null);
     }
 
     public boolean isMember(Resident res) {

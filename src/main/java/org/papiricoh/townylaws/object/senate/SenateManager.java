@@ -8,20 +8,17 @@ import java.util.*;
 public class SenateManager {
     private Nation nation;
     private List<Law> laws;
-    private List<Party> parties;
-    public static final int MAX_SENATORS = 80;
-    private Map<UUID, Integer> numberOfVotes;
+    private Map<Party, Integer> parties;
     private Election currentElection;
 
-    public SenateManager(Nation nation, List<Law> laws, List<Party> parties, Map<UUID, Integer> numberOfVotes) {
+    public SenateManager(Nation nation, List<Law> laws, Map<Party, Integer> parties) {
         this.nation = nation;
         this.laws = laws != null ? laws : new ArrayList<>();
-        this.parties = parties != null ? parties : new ArrayList<>();
-        this.numberOfVotes = numberOfVotes != null ? numberOfVotes : new HashMap<>();
+        this.parties = parties != null ? parties : new HashMap<>();
     }
 
     public Party getPartyByName(String name) {
-        for (Party p : this.parties) {
+        for (Party p : this.parties.keySet()) {
             if(p.getName().equals(name)) {
                 return p;
             }
@@ -30,13 +27,12 @@ public class SenateManager {
     }
 
     public void addParty(Party party) {
-        this.parties.add(party);
-        this.numberOfVotes.put(party.getUuid(), 0);
+        this.parties.put(party, 0);
     }
 
     public void newElection() {
         if(this.parties.size() != 0) {
-            this.currentElection = new Election(this.parties, this.nation);
+            this.currentElection = new Election(new ArrayList<>(this.parties.keySet()), this.nation);
         }
     }
 

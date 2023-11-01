@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Party {
@@ -88,5 +89,18 @@ public class Party {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.uuid);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Party) {
+            return ((Party) o).uuid.equals(this.uuid);
+        }
+        return false;
     }
 }

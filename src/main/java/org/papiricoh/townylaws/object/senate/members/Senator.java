@@ -1,7 +1,8 @@
-package org.papiricoh.townylaws.object.senate;
+package org.papiricoh.townylaws.object.senate.members;
 
 import com.palmergames.bukkit.towny.object.Resident;
 import org.jetbrains.annotations.NotNull;
+import org.papiricoh.townylaws.object.senate.Party;
 
 public class Senator {
     private Resident resident;

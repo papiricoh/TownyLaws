@@ -5,6 +5,9 @@ import com.palmergames.bukkit.towny.object.Resident;
 import org.jetbrains.annotations.NotNull;
 import org.papiricoh.townylaws.exceptions.LawsException;
 import org.papiricoh.townylaws.object.laws.Law;
+import org.papiricoh.townylaws.object.senate.members.Senator;
+import org.papiricoh.townylaws.object.senate.types.GovernmentType;
+import org.papiricoh.townylaws.object.senate.vote.Vote;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +33,17 @@ public class Senate {
         this.governmentType = governmentType != null ? governmentType : GovernmentType.ABSOLUTE_MONARCHY;
     }
 
+    public void startNewVote(Resident res) throws LawsException {
+        if(!this.governmentType.hasSenate) {
+            throw new LawsException("Government Type disallows senate voting");
+        }
+        if(this.currentVote != null) {
+            throw new LawsException("A vote is in progress");
+        }
+        if(nation.isKing(res) || (this.primeMinister != null && this.primeMinister.equals(res)) || isSenator(res)) {
+            this.currentVote = new Vote(this.senators);
+        }
+    }
     public void finishElection() throws LawsException {
         if(this.currentElection == null) {
             throw new LawsException(nation.getFormattedName() + " not in election period");
@@ -63,6 +77,9 @@ public class Senate {
     public void startNewElections(Resident res) throws LawsException {
         if(!this.governmentType.hasSenate) {
             throw new LawsException("Government Type disallows elections");
+        }
+        if(this.currentVote != null) {
+            throw new LawsException("Vote in senate in progress");
         }
         if(nation.isKing(res) || (this.primeMinister != null && this.primeMinister.equals(res))) {
             this.currentElection = new Election();

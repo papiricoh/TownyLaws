@@ -1,4 +1,4 @@
-package org.papiricoh.townylaws.object.senate;
+package org.papiricoh.townylaws.object.senate.types;
 
 public enum GovernmentType {
     ABSOLUTE_MONARCHY(false, false, false),

@@ -65,6 +65,21 @@ public class Senate {
         }
     }
 
+    public void changeGovernmentAsKing(Resident res, GovernmentType governmentType) throws LawsException {
+        if(this.nation.isKing(res)) {
+            if(this.governmentType.hasSenate) {
+                throw new LawsException("Government type disallows forceful governmentType changes");
+            }
+            this.governmentType = governmentType;
+            if(governmentType.hasSenate) {
+                this.currentVote = null;
+                this.currentElection = new Election();
+            }
+        }else {
+            throw new LawsException("You are not the king");
+        }
+    }
+
     public VotableElement finnishVote() throws LawsException, TownyException {
         if(this.currentVote == null) {
             throw new LawsException("Senate not in session");

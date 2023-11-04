@@ -21,4 +21,8 @@ public class Vote {
         }
         return votes;
     }
+
+    private void setVote(Senator sen, VoteType vote) {
+        this.votes.put(sen, vote);
+    }
 }

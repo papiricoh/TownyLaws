@@ -15,7 +15,9 @@ public class Senator {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Senator) {
+        if(obj instanceof Resident) {
+            return ((Resident) obj).equals(this.resident);
+        }else if(obj instanceof Senator) {
             return ((Senator) obj).resident.equals(this.resident);
         }
         return false;

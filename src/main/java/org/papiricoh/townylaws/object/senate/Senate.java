@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Senate {
     private Nation nation;
-    private Resident primeMinister;
+    private Senator primeMinister;
     private List<Senator> senators;
     private Map<Party, Integer> partySeats;
     private List<Law> laws;
@@ -24,13 +24,17 @@ public class Senate {
     private Election currentElection;
     private Vote currentVote;
 
-    public Senate(@NotNull Nation nation, Resident primeMinister, List<Senator> senators, Map<Party, Integer> partySeats, List<Law> laws, GovernmentType governmentType) {
+    public Senate(@NotNull Nation nation, Senator primeMinister, List<Senator> senators, Map<Party, Integer> partySeats, List<Law> laws, GovernmentType governmentType) {
         this.nation = nation;
         this.primeMinister = primeMinister;
         this.senators = senators != null ? senators : new ArrayList<>();
         this.partySeats = partySeats != null ? partySeats : new HashMap<>();
         this.laws = laws != null ? laws : new ArrayList<>();
         this.governmentType = governmentType != null ? governmentType : GovernmentType.ABSOLUTE_MONARCHY;
+    }
+
+    public void setVoteAsSenator() {
+
     }
 
     public void startNewVote(Resident res) throws LawsException {

@@ -3,6 +3,7 @@ package org.papiricoh.townylaws;
 import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Nation;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.papiricoh.townylaws.database.DatabaseLoader;
 import org.papiricoh.townylaws.object.senate.Senate;
 
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ public final class TownyLaws extends JavaPlugin {
         this.instance = this;
         this.senates = new ArrayList<>();
         //LOAD SENATES
+        this.senates = DatabaseLoader.loadSenates();
 
         //Check all not senate nations and assign a new senate
         ArrayList<Nation> nations = new ArrayList<>(TownyUniverse.getInstance().getNations());

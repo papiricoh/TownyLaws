@@ -38,7 +38,7 @@ public class Senate {
         this.governmentType = governmentType != null ? governmentType : GovernmentType.ABSOLUTE_MONARCHY;
     }
 
-    public void startNewVote(Resident res, VotableElement ve) throws LawsException {
+    private void startNewVote(Resident res, VotableElement ve) throws LawsException {
         if(!this.governmentType.hasSenate) {
             throw new LawsException("Government Type disallows senate voting");
         }

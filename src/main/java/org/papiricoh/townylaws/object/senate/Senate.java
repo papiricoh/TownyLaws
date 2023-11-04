@@ -74,6 +74,7 @@ public class Senate {
             throw new LawsException("Vote for " + this.currentVote.getVotableElement().getTitle() + " Failed");
         }
         this.currentVote = null;
+
         //TODO: DIFFERENTIATE VOTABLE ELEMENTS
         if(ve.getType().equals("Investiture")) {
             if(this.governmentType.primeMinisterIsRuler) {
@@ -149,6 +150,9 @@ public class Senate {
         }
         if(this.currentVote != null) {
             throw new LawsException("Vote in senate in progress");
+        }
+        if(this.currentElection != null) {
+            throw new LawsException("Elections already in progress");
         }
         if(nation.isKing(res) || (this.primeMinister != null && this.primeMinister.equals(res))) {
             this.currentElection = new Election();

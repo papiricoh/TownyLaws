@@ -5,6 +5,7 @@ import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import org.jetbrains.annotations.NotNull;
 import org.papiricoh.townylaws.exceptions.LawsException;
+import org.papiricoh.townylaws.object.votableElements.GovernmentChange;
 import org.papiricoh.townylaws.object.votableElements.Investiture;
 import org.papiricoh.townylaws.object.votableElements.Law;
 import org.papiricoh.townylaws.object.senate.members.Senator;
@@ -37,15 +38,30 @@ public class Senate {
         this.governmentType = governmentType != null ? governmentType : GovernmentType.ABSOLUTE_MONARCHY;
     }
 
+    public void startNewVote(Resident res, VotableElement ve) throws LawsException {
+        if(!this.governmentType.hasSenate) {
+            throw new LawsException("Government Type disallows senate voting");
+        }
+        if(this.currentVote != null) {
+            throw new LawsException("A vote is in progress");
+        }
+        if(this.currentElection != null) {
+            throw new LawsException("A election is in progress");
+        }
+        if(nation.isKing(res) || (this.primeMinister != null && this.primeMinister.equals(res)) || isSenator(res)) {
+            this.currentVote = new Vote(this.senators, ve);
+        }
+    }
+
     public VotableElement finnishVote() throws LawsException, TownyException {
         if(this.currentVote == null) {
             throw new LawsException("Senate not in session");
         }
         VotableElement ve = this.currentVote.finnishVoteSession();
-        this.currentVote = null;
         if(ve == null) {
-            throw new LawsException("Vote Failed");
+            throw new LawsException("Vote for " + this.currentVote.getVotableElement().getTitle() + " Failed");
         }
+        this.currentVote = null;
         //TODO: DIFFERENTIATE VOTABLE ELEMENTS
         if(ve.getType().equals("Investiture")) {
             if(this.governmentType.primeMinisterIsRuler) {
@@ -55,7 +71,13 @@ public class Senate {
                 this.primeMinister = ((Investiture) ve).getInvestedSenator();
             }
         } else if (ve.getType().equals("GovernmentChange")) {
-            
+            GovernmentType gt = ((GovernmentChange) ve).getGovernmentType();
+            if(gt.hasSenate) {
+                this.currentElection = new Election();
+            }
+            this.governmentType = gt;
+        } else if (ve.getType().equals("Law")) {
+            this.laws.add((Law) ve);
         }
 
         return ve;
@@ -79,17 +101,6 @@ public class Senate {
         this.currentVote.setVote(getSenatorByResident(res), vote);
     }
 
-    public void startNewVote(Resident res, VotableElement ve) throws LawsException {
-        if(!this.governmentType.hasSenate) {
-            throw new LawsException("Government Type disallows senate voting");
-        }
-        if(this.currentVote != null) {
-            throw new LawsException("A vote is in progress");
-        }
-        if(nation.isKing(res) || (this.primeMinister != null && this.primeMinister.equals(res)) || isSenator(res)) {
-            this.currentVote = new Vote(this.senators, ve);
-        }
-    }
     public void finishElection() throws LawsException {
         if(this.currentElection == null) {
             throw new LawsException(nation.getFormattedName() + " not in election period");

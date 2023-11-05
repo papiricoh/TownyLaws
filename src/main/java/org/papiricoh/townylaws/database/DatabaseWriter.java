@@ -1,6 +1,7 @@
 package org.papiricoh.townylaws.database;
 
 import com.palmergames.bukkit.towny.object.Resident;
+import org.jetbrains.annotations.NotNull;
 import org.papiricoh.townylaws.TownyLaws;
 import org.papiricoh.townylaws.object.senate.Party;
 import org.papiricoh.townylaws.object.senate.Senate;
@@ -22,7 +23,7 @@ public class DatabaseWriter {
         }
     }
 
-    private static void saveSenate(Senate senate) throws IOException {
+    private static void saveSenate(@NotNull Senate senate) throws IOException {
         UUID nationId = senate.getNation().getUUID();
         File nationFolder = new File(TownyLaws.getInstance().getDataFolder() + File.separator + "nations" + File.separator + nationId);
         if (!nationFolder.exists()) {
@@ -45,8 +46,10 @@ public class DatabaseWriter {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(senate.getNation().getUUID() + " : " + senate.getPrimeMinister().getResident().getUUID() + " : " + senators + " : "
-                    + senate.getGovernmentType().toString() + System.lineSeparator());
+            writer.write("PrimeMinister: " + senate.getPrimeMinister().getResident().getUUID() + " "
+                    + senate.getPrimeMinister().getParty().getUuid() + System.lineSeparator());
+            writer.write("Senators: " + senators + System.lineSeparator());
+            writer.write("GovernmentType: " + senate.getGovernmentType().toString() + System.lineSeparator());
         }
     }
 

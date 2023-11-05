@@ -270,4 +270,7 @@ public class Senate {
         return senatorsToString;
     }
 
+    public Map<Party, Integer> getParties() {
+        return this.partySeats;
+    }
 }

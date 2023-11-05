@@ -4,17 +4,17 @@ import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import org.papiricoh.townylaws.TownyLaws;
+import org.papiricoh.townylaws.object.senate.Ideology;
 import org.papiricoh.townylaws.object.senate.Party;
 import org.papiricoh.townylaws.object.senate.Senate;
 import org.papiricoh.townylaws.object.senate.members.Senator;
+import org.papiricoh.townylaws.object.senate.types.GovernmentType;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class DatabaseLoader {
     public static List<Senate> loadSenates() {
@@ -29,7 +29,9 @@ public class DatabaseLoader {
                     if (file.isDirectory()) {
                         try {
                             UUID uuid = UUID.fromString(file.getName());
-                            senates.add(loadSenateFile(file, uuid)); //FILE
+                            File partiesFile = new File(file, "parties.txt");
+                            File senateFile = new File(file, "senate.txt");
+                            senates.add(loadSenateFile(senateFile, partiesFile, uuid)); //FILE
                         } catch (IllegalArgumentException e) {
                             System.err.println("No valid directory: " + file.getName());
                         } catch (IOException e) {
@@ -43,20 +45,69 @@ public class DatabaseLoader {
         return senates;
     }
 
-    public static Senate loadSenateFile(File file, UUID nationUuid) throws IOException {
-        List<Senator> senatorList = new ArrayList<>();
-
+    public static Senate loadSenateFile(File senateFile, File partiesFile, UUID nationUuid) throws IOException {
         Nation nation = TownyUniverse.getInstance().getNation(nationUuid);
+        Map<Party, Integer> partySeats = loadPartySeats(partiesFile);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        Senator primeMinister = null;
+        List<Senator> senators = new ArrayList<>();
+        GovernmentType governmentType = null;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(senateFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("PrimeMinister: ")) {
+                    String[] split = line.substring("PrimeMinister: ".length()).split(" ");
+                    primeMinister = new Senator(TownyUniverse.getInstance().getResident(UUID.fromString(split[0])), 
+                            split[1] != null ? getPartyFromUUID(UUID.fromString(split[1]), partySeats) : null);
+                }else if (line.startsWith("Senators: ")) {
+                    String[] senatorsString = line.substring("Senators: ".length()).split(" - ");
+                    for (String senatorString : senatorsString) {
+                        String[] split = senatorString.split(" ");
+                        senators.add(new Senator(TownyUniverse.getInstance().getResident(UUID.fromString(split[0])),
+                                split[1] != null ? getPartyFromUUID(UUID.fromString(split[1]), partySeats) : null));
+                    }
 
+                }else if (line.startsWith("GovernmentType: ")) {
+                    governmentType = GovernmentType.valueOf(line.substring("GovernmentType: ".length()));
                 }
             }
         }
 
-        return new Senate(nation, null, null, null, null, null);
+        return new Senate(nation, primeMinister, senators, partySeats, null, governmentType);
+    }
+
+    private static Party getPartyFromUUID(UUID uuid, Map<Party, Integer> partySeats) {
+        for (Party p : partySeats.keySet()) {
+            if(p.getUuid().equals(uuid)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    private static Map<Party, Integer> loadPartySeats(File partiesFile) throws IOException {
+        Map<Party, Integer> partySeats = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(partiesFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] split = line.split(" : ");
+                UUID partyUuid = UUID.fromString(split[0]);
+                String partyName = split[1];
+                Resident leader = TownyUniverse.getInstance().getResident(UUID.fromString(split[2]));
+
+                String[] membersString = split[3].split(" - ");
+                List<Resident> members = new ArrayList<>();
+                for (String s : membersString) {
+                    members.add(TownyUniverse.getInstance().getResident(UUID.fromString(s)));
+                }
+                Ideology ideology = Ideology.valueOf(split[4]);
+                Integer seats = Integer.parseInt(split[5]);
+
+                partySeats.put(new Party(partyUuid, partyName, leader, members, ideology), seats);
+            }
+        }
+
+        return partySeats;
     }
 }

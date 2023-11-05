@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class Senate {
     private Nation nation;
+
     private Senator primeMinister;
     private List<Senator> senators;
     private Map<Party, Integer> partySeats;
@@ -109,6 +110,10 @@ public class Senate {
         }
 
         return ve;
+    }
+
+    public Senator getPrimeMinister() {
+        return primeMinister;
     }
 
     public String getCurrentVoteToString() throws LawsException {
@@ -272,5 +277,9 @@ public class Senate {
 
     public Map<Party, Integer> getParties() {
         return this.partySeats;
+    }
+
+    public List<Senator> getSenators() {
+        return this.senators;
     }
 }

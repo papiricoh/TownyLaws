@@ -6,6 +6,7 @@ import org.papiricoh.townylaws.TownyLaws;
 import org.papiricoh.townylaws.object.senate.Party;
 import org.papiricoh.townylaws.object.senate.Senate;
 import org.papiricoh.townylaws.object.senate.members.Senator;
+import org.papiricoh.townylaws.object.votableElements.Law;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,10 +31,19 @@ public class DatabaseWriter {
             nationFolder.mkdirs();
         }
         savePartiesFile(new File(nationFolder, "parties.txt"), senate.getParties());
-        //SAVE LAWS
+        saveLawsFile(new File(nationFolder, "laws.txt"), senate.getLaws());
         saveSenateFile(new File(nationFolder, "senate.txt"), senate);
 
 
+    }
+
+    private static void saveLawsFile(File file, List<Law> laws) throws IOException {
+        for (Law l : laws) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(l.getTitle() + " - " + l.getDescription() + " - "
+                        + l.getIdeology().toString() + System.lineSeparator());
+            }
+        }
     }
 
     private static void saveSenateFile(File file, Senate senate) throws IOException {

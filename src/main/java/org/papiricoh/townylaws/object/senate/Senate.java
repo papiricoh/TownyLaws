@@ -282,4 +282,8 @@ public class Senate {
     public List<Senator> getSenators() {
         return this.senators;
     }
+
+    public List<Law> getLaws() {
+        return this.laws;
+    }
 }

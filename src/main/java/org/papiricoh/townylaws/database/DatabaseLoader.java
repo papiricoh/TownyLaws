@@ -9,11 +9,9 @@ import org.papiricoh.townylaws.object.senate.Party;
 import org.papiricoh.townylaws.object.senate.Senate;
 import org.papiricoh.townylaws.object.senate.members.Senator;
 import org.papiricoh.townylaws.object.senate.types.GovernmentType;
+import org.papiricoh.townylaws.object.votableElements.Law;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class DatabaseLoader {
@@ -31,7 +29,8 @@ public class DatabaseLoader {
                             UUID uuid = UUID.fromString(file.getName());
                             File partiesFile = new File(file, "parties.txt");
                             File senateFile = new File(file, "senate.txt");
-                            senates.add(loadSenateFile(senateFile, partiesFile, uuid)); //FILE
+                            File lawsFile = new File(file, "laws.txt");
+                            senates.add(loadSenateFile(senateFile, partiesFile, lawsFile, uuid)); //FILE
                         } catch (IllegalArgumentException e) {
                             System.err.println("No valid directory: " + file.getName());
                         } catch (IOException e) {
@@ -45,13 +44,14 @@ public class DatabaseLoader {
         return senates;
     }
 
-    public static Senate loadSenateFile(File senateFile, File partiesFile, UUID nationUuid) throws IOException {
+    public static Senate loadSenateFile(File senateFile, File partiesFile, File lawsFile, UUID nationUuid) throws IOException {
         Nation nation = TownyUniverse.getInstance().getNation(nationUuid);
         Map<Party, Integer> partySeats = loadPartySeats(partiesFile);
 
         Senator primeMinister = null;
         List<Senator> senators = new ArrayList<>();
         GovernmentType governmentType = null;
+        List<Law> laws = loadLaws(lawsFile);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(senateFile))) {
             String line;
@@ -74,7 +74,19 @@ public class DatabaseLoader {
             }
         }
 
-        return new Senate(nation, primeMinister, senators, partySeats, null, governmentType);
+        return new Senate(nation, primeMinister, senators, partySeats, laws, governmentType);
+    }
+
+    private static List<Law> loadLaws(File lawsFile) throws IOException {
+        List<Law> laws = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(lawsFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] split = line.split(" - ");
+                laws.add(new Law(split[0], split[1], Ideology.valueOf(split[2])));
+            }
+        }
+        return laws;
     }
 
     private static Party getPartyFromUUID(UUID uuid, Map<Party, Integer> partySeats) {

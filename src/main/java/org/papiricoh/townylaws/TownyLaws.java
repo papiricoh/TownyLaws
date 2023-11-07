@@ -2,10 +2,15 @@ package org.papiricoh.townylaws;
 
 import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Nation;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.papiricoh.townylaws.command.SenateCommand;
 import org.papiricoh.townylaws.database.DatabaseLoader;
+import org.papiricoh.townylaws.database.DatabaseWriter;
 import org.papiricoh.townylaws.object.senate.Senate;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,11 +42,26 @@ public final class TownyLaws extends JavaPlugin {
             this.senates.add(new Senate(n, null, null, null, null, null));
         }
 
+        this.getServer().getScheduler().runTaskTimer(this, () -> {
+            try {
+                DatabaseWriter.saveSenates(this.senates);
+            } catch (IOException e) {
+                this.getLogger().severe(e.getMessage());
+            }
+        }, 0, 3 * 60 * 20L);
+
+        SenateCommand senateCommand = new SenateCommand();
+        this.getCommand("senate").setExecutor(senateCommand);
+        this.getCommand("senate").setTabCompleter(senateCommand);
     }
 
     @Override
     public void onDisable() {
-
+        try {
+            DatabaseWriter.saveSenates(this.senates);
+        } catch (IOException e) {
+            this.getLogger().severe(e.getMessage());
+        }
     }
 
     public static TownyLaws getInstance() {

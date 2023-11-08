@@ -41,11 +41,13 @@ public class SenateCommand implements CommandExecutor, TabCompleter {
                         }
                         return true;
                     }
+
                 }else {
                     if(args[0].equals("info")) {
                         player.sendMessage(TownyLaws.getInstance().getPlayerSenate(player).toString());
                         return true;
                     }
+
                 }
             }
         }

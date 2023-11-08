@@ -271,7 +271,10 @@ public class Senate {
         return governmentType;
     }
 
-    public String senatorsToString() {
+    public String senatorsToString() throws LawsException {
+        if(!this.governmentType.hasSenate) {
+            throw new LawsException("Government type disallows senate");
+        }
         String senatorsToString = "";
         for (Senator s : this.senators) {
             senatorsToString += "Senator " + s.getResident().getFormattedName() + " - Member of " + s.getParty().getName() + "\n";
@@ -320,5 +323,21 @@ public class Senate {
         }else {
             return "In recess";
         }
+    }
+
+    public String partiesToString() throws LawsException {
+        if(!this.governmentType.hasSenate) {
+            throw new LawsException("Government type disallows senate");
+        }
+        String str = "";
+        if(this.partySeats.size() == 0) {
+            str += "No parties in senate";
+        }else {
+            str += "Parties in the " + this.nation.getFormattedName() + " senate\n";
+            for (Party p : this.partySeats.keySet()) {
+                str += p.getName() + " " + p.getIdeology().name().toLowerCase() + " Seats: " + this.partySeats.get(p) + "\n";
+            }
+        }
+        return str;
     }
 }

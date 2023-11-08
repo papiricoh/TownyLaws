@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.papiricoh.townylaws.TownyLaws;
+import org.papiricoh.townylaws.exceptions.LawsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,27 @@ public class SenateCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (command.getName().equalsIgnoreCase("senate")) {
-            if (args.length == 1) {
-                if(args[0].equals("info")) {
-                    player.sendMessage(TownyLaws.getInstance().getPlayerSenate(player).toString());
+            if (args.length >= 1) {
+                if(args.length >= 2) {
+                    if(args[0].equals("info") && args[1].equals("parties")) {
+                        try {
+                            player.sendMessage(TownyLaws.getInstance().getPlayerSenate(player).partiesToString());
+                        } catch (LawsException e) {
+                            player.sendMessage(e.getMessage());
+                        }
+                    }else if(args[0].equals("info") && args[1].equals("senators")) {
+                        try {
+                            player.sendMessage(TownyLaws.getInstance().getPlayerSenate(player).senatorsToString());
+                        } catch (LawsException e) {
+                            player.sendMessage(e.getMessage());
+                        }
+                        return true;
+                    }
+                }else {
+                    if(args[0].equals("info")) {
+                        player.sendMessage(TownyLaws.getInstance().getPlayerSenate(player).toString());
+                        return true;
+                    }
                 }
             }
         }
@@ -43,6 +62,14 @@ public class SenateCommand implements CommandExecutor, TabCompleter {
                 suggestions.add("new");
                 suggestions.add("info");
                 return suggestions;
+            }
+            if(args.length == 2) {
+                if(args[0].equals("info")) {
+                    ArrayList<String> infoSuggestions = new ArrayList<>();
+                    infoSuggestions.add("parties");
+                    infoSuggestions.add("senators");
+                    return infoSuggestions;
+                }
             }
         }
         return null;

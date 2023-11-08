@@ -34,6 +34,20 @@ public class Election {
         return assignSeatsDHont(votesByParty, 80); //TODO: CONFIG TO MAX SEATS IN PARLIAMENT
     }
 
+    @Override
+    public String toString() {
+        String str = "";
+        Map<Party, Integer> parties = new HashMap<>();
+        for (Party p: this.votes.values()) {
+            parties.put(p, parties.get(p) != null ? parties.get(p) + 1 : 1);
+        }
+        for (Map.Entry<Party, Integer> entry: parties.entrySet()) {
+            str += entry.getKey().getName() + " Votes: " + entry.getValue();
+        }
+
+        return str;
+    }
+
     public HashMap<Party, Integer> assignSeatsDHont(Map<Party, Integer> votes, int totalSeats) {
         HashMap<Party, List<Double>> quotients = new HashMap<>();
         HashMap<Party, Integer> seats = new HashMap<>();

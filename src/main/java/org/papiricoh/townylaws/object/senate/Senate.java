@@ -120,12 +120,19 @@ public class Senate {
         return primeMinister;
     }
 
-    public String getCurrentVoteToString() throws LawsException {
+    public String currentVoteToString() throws LawsException {
         if(this.currentVote == null) {
             throw new LawsException("Senate not in session");
         }
         return this.currentVote.getVotableElement().getType() + " with title: " +
                 this.currentVote.getVotableElement().getTitle();
+    }
+
+    public String currentElectionToString() throws LawsException {
+        if(this.currentElection == null) {
+            throw new LawsException("Senate not in election progress");
+        }
+        return this.currentElection.toString();
     }
 
     public void setVoteAsSenator(Resident res, VoteType vote) throws LawsException {
@@ -340,4 +347,5 @@ public class Senate {
         }
         return str;
     }
+
 }

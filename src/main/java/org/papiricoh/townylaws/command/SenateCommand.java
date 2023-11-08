@@ -64,10 +64,26 @@ public class SenateCommand implements CommandExecutor, TabCompleter {
                 return suggestions;
             }
             if(args.length == 2) {
+                if(args[0].equals("vote")) {
+                    ArrayList<String> infoSuggestions = new ArrayList<>();
+                    infoSuggestions.add("for");
+                    infoSuggestions.add("against");
+                    infoSuggestions.add("abstain");
+                    return infoSuggestions;
+                }
+                if(args[0].equals("new")) {
+                    ArrayList<String> infoSuggestions = new ArrayList<>();
+                    infoSuggestions.add("investitureVote");
+                    infoSuggestions.add("lawVote");
+                    infoSuggestions.add("changeGovernmentTypeVote");
+                    return infoSuggestions;
+                }
                 if(args[0].equals("info")) {
                     ArrayList<String> infoSuggestions = new ArrayList<>();
                     infoSuggestions.add("parties");
                     infoSuggestions.add("senators");
+                    infoSuggestions.add("currentVote");
+                    infoSuggestions.add("currentElection");
                     return infoSuggestions;
                 }
             }

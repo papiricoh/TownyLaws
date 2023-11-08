@@ -16,4 +16,8 @@ public enum GovernmentType {
         this.hasPrimeMinister = hasPrimeMinister;
         this.primeMinisterIsRuler = primeMinisterIsRuler;
     }
+
+    public String toFormattedString() {
+        return this.name().replace('_', ' ');
+    }
 }

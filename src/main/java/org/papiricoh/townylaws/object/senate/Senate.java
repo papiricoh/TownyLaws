@@ -3,6 +3,7 @@ package org.papiricoh.townylaws.object.senate;
 import com.palmergames.bukkit.towny.exceptions.TownyException;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
+import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import org.papiricoh.townylaws.exceptions.LawsException;
 import org.papiricoh.townylaws.object.votableElements.GovernmentChange;
@@ -40,6 +41,9 @@ public class Senate {
     }
 
     public void startNewInvestitureVote(Resident res, Senator investedSenator) throws LawsException {
+        if(this.primeMinister != null) {
+            throw new LawsException("Prime minister already invested, for destitution convocate new elections");
+        }
         startNewVote(res, new Investiture(investedSenator));
     }
 
@@ -285,5 +289,36 @@ public class Senate {
 
     public List<Law> getLaws() {
         return this.laws;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        str += "Senate of the " + this.nation.getFormattedName() + "\n";
+        str += "Government Type: " + this.governmentType.toFormattedString().toLowerCase() + "\n";
+        if(!this.governmentType.hasSenate) {
+            str += "Senate Closed, government type disallows it" + "\n";
+        }else {
+            str += "Session: " + getSession() + "\n";
+            str += "Prime minister: " + this.primeMinister != null ? ChatColor.GOLD +
+                    this.primeMinister.getResident().getName() + ChatColor.RESET : "No prime Minister" + "\n";
+            str += "Number of senators: " + getNumberOfSenators() + "\n";
+            str += "Number of parties: " + this.partySeats.size() + "\n";
+        }
+        return str;
+    }
+
+    private int getNumberOfSenators() {
+        return this.senators.size() + (this.primeMinister != null ? 1 : 0);
+    }
+
+    private String getSession() {
+        if(this.currentElection != null) {
+            return "In Elections";
+        }else if(this.currentVote != null) {
+            return "In Vote Session for " + this.currentVote.getVotableElement().getTitle();
+        }else {
+            return "In recess";
+        }
     }
 }

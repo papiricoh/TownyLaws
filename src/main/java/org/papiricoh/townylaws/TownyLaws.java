@@ -2,8 +2,10 @@ package org.papiricoh.townylaws;
 
 import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.papiricoh.townylaws.command.SenateCommand;
 import org.papiricoh.townylaws.database.DatabaseLoader;
@@ -15,9 +17,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public final class TownyLaws extends JavaPlugin {
-    public static TownyLaws instance;
+    private static TownyLaws instance;
     private List<Senate> senates;
 
     @Override
@@ -66,5 +69,15 @@ public final class TownyLaws extends JavaPlugin {
 
     public static TownyLaws getInstance() {
         return instance;
+    }
+
+    public Senate getPlayerSenate(Player player) {
+        Resident res = TownyUniverse.getInstance().getResident(player.getUniqueId());
+        for (Senate s : this.senates) {
+            if(s.getNation().hasResident(res)) {
+                return s;
+            }
+        }
+        return null;
     }
 }
